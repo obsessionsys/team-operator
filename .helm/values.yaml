@@ -1,0 +1,93 @@
+
+fullnameOverride: "team-operator"
+nameOverride: "team-operator"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: team-operator
+  # Can't touch the namespace variable, because the operator works at the Cluster Admin
+  namespace: kube-system
+
+operator:
+  replicaCount: 1
+  image:
+    repository: obsessionsys/team-operator
+    tag: v1.18.4
+    pullPolicy: Always
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  affinity: {}
+
+  tolerations: []
+
+crEnable: 
+  enabled: true
+  name: "team"
+customResource:
+  inCharge: POService
+  environments:
+    - name: monitor
+      maxPods: 30
+      resources:
+        limits:
+          cpu: 2
+          memory: 5Gi
+        requests:
+          cpu: 2
+          memory: 5Gi
+      podResources:
+        limits:
+          max:
+            cpu: 1
+            memory: 1Gi
+          default:
+            cpu: 100m
+            memory: 100Mi
+        requests:
+          min:
+            cpu: 50m
+            memory: 64Mi
+          default:
+            cpu: 100m
+            memory: 100Mi
+        maxLimitRequestRatio:
+          cpu: 2
+          memory: 2
+      tiller:
+        enabled: false
+
+    - name: qa
+      resources:
+        limits:
+          cpu: 5
+          memory: 5Gi
+        requests:
+          cpu: 5
+          memory: 5Gi
+      tiller:
+        enabled: false
+
+    - name: stage
+      resources:
+        limits:
+          cpu: 2
+          memory: 2Gi
+        requests:
+          cpu: 2
+          memory: 2Gi
+      tiller:
+        enabled: false

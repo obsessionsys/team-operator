@@ -1,0 +1,8 @@
+{{- if .Values.crEnable.enabled -}}
+apiVersion: ops.southbridge.io/v1beta1
+kind: Team
+metadata:
+  name: {{ .Values.crEnable.name }}
+spec:
+  {{- toYaml .Values.customResource | nindent 2 }}
+{{- end }}
