@@ -1,5 +1,5 @@
 # K8s Team operator
-
+ 
 This is fork from repo https://github.com/pauljamm/team-operator
 
 Kubernetes Operator allows you to create Team objects with a description of the environment for this Team (for example, developer, QA, Stage environments) and allocates a certain amount of resources for the Team in this Namespace.
