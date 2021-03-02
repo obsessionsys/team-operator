@@ -24,3 +24,5 @@ defaults:
       memory: 2
   tiller:
     enabled: true
+  istioInject: 
+    enabled: true

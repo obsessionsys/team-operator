@@ -41,7 +41,6 @@ customResource:
   inCharge: POService
   environments:
     - name: monitor
-      istioInject: false
       maxPods: 30
       resources:
         limits:
@@ -69,6 +68,8 @@ customResource:
           cpu: 2
           memory: 2
       tiller:
+        enabled: false
+      istioInject: 
         enabled: false
 
     - name: qa
