@@ -1,5 +1,5 @@
 {{- if .Values.examplecrEnable.enabled -}}
-apiVersion: ops.southbridge.io/v1beta1
+apiVersion: ops.teams.io/v1beta1
 kind: Team
 metadata:
   name: {{ .Values.examplecrEnable.name }}

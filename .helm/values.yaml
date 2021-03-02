@@ -17,7 +17,7 @@ operator:
   replicaCount: 1
   image:
     repository: obsessionsys/team-operator
-    tag: v1.18.4
+    tag: latest
     pullPolicy: Always
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -41,6 +41,7 @@ customResource:
   inCharge: POService
   environments:
     - name: monitor
+      istioInject: false
       maxPods: 30
       resources:
         limits:

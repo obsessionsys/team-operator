@@ -1,13 +1,13 @@
 annotations:
   category: Operator
 apiVersion: v2
-appVersion: 1.18.3
+appVersion: 1.18.5
 description: Kubernetes Operator allows you to create Team objects with a description 
   of the environment for this Team (for example, developer, QA, Stage environments) 
   and allocates a certain amount of resources for the Team in this Namespace.
 engine: ansibletpl
 name: team-operator
-version: 1.18.3
+version: 1.18.5
 home: https://ecredit.one
 icon: https://api-platform.com/logo-250x250.png
 keywords:
