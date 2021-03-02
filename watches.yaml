@@ -1,6 +1,6 @@
 ---
 - version: v1beta1
-  group: ops.southbridge.io
+  group: ops.teams.io
   kind: Team
   role: /opt/ansible/roles/team
   watchClusterScopedResources: true

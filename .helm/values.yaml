@@ -34,7 +34,7 @@ operator:
 
   tolerations: []
 
-crEnable: 
+examplecrEnable: 
   enabled: true
   name: "team"
 customResource:
