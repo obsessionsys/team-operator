@@ -24,6 +24,19 @@
   when: (item.istioInject|default(dict())).enabled | default(defaults.istioInject.enabled) != false
   loop: "{{ environments }}"
 
+- name: Unlabling the namespace
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ meta.name }}-{{ item.name }}"
+        labels:
+          istio-injection: disabled
+  when: (item.istioInject|default(dict())).enabled | default(defaults.istioInject.enabled) = false
+  loop: "{{ environments }}"
+
 - name: Create a resource quota
   k8s:
     state: present
