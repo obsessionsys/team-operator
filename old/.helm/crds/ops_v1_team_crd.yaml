@@ -1,0 +1,40 @@
+# {{ if .Capabilities.APIVersions.Has "apiextensions.k8s.io/v1beta1" }}
+# apiVersion: apiextensions.k8s.io/v1beta1
+# {{- else }}
+# apiVersion: apiextensions.k8s.io/v1
+# {{- end }}
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: teams.ops.teams.io
+spec:
+  group: ops.teams.io
+  names:
+    kind: Team
+    listKind: TeamList
+    plural: teams
+    singular: team
+  scope: Cluster
+  subresources:
+    status: {}
+  version: v1beta1
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
+  validation:
+    openAPIV3Schema:
+      properties:
+        spec:
+          properties:
+            environments:
+              type: array
+  additionalPrinterColumns:
+    - name: In charge
+      type: string
+      description: Person incharged for the team's environments
+      JSONPath: .spec.inCharge
+    - name: Age
+      type: date
+      JSONPath: .metadata.creationTimestamp

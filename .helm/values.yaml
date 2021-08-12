@@ -13,83 +13,35 @@ serviceAccount:
   # Can't touch the namespace variable, because the operator works at the Cluster Admin
   namespace: kube-system
 
+crd:
+  create: false
+
+imageCredentials: {}
+  # registry:
+  # username:
+  # password:
+  # email:
+
 operator:
   replicaCount: 1
   image:
     repository: obsessionsys/team-operator
     tag: latest
     pullPolicy: Always
-  resources: {}
+    #imagePullSecrets: private-registry
+  resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi
+    requests:
+      cpu: 300m
+      memory: 512Mi
   affinity: {}
 
   tolerations: []
 
-examplecrEnable: 
-  enabled: true
-  name: "team"
-customResource:
-  inCharge: POService
-  environments:
-    - name: monitor
-      maxPods: 30
-      resources:
-        limits:
-          cpu: 2
-          memory: 5Gi
-        requests:
-          cpu: 2
-          memory: 5Gi
-      podResources:
-        limits:
-          max:
-            cpu: 1
-            memory: 1Gi
-          default:
-            cpu: 100m
-            memory: 100Mi
-        requests:
-          min:
-            cpu: 50m
-            memory: 64Mi
-          default:
-            cpu: 100m
-            memory: 100Mi
-        maxLimitRequestRatio:
-          cpu: 2
-          memory: 2
-      tiller:
-        enabled: false
-      istioInject: 
-        enabled: false
-
-    - name: qa
-      resources:
-        limits:
-          cpu: 5
-          memory: 5Gi
-        requests:
-          cpu: 5
-          memory: 5Gi
-      tiller:
-        enabled: false
-
-    - name: stage
-      resources:
-        limits:
-          cpu: 2
-          memory: 2Gi
-        requests:
-          cpu: 2
-          memory: 2Gi
-      tiller:
-        enabled: false
+  annotations: {}
