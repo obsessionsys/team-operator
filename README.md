@@ -21,30 +21,18 @@ The Operator was tested on K8s version 1.18.3
 
 ## Quick start
 
-* Creating a serviceaccount for the Operator:
+* Deploing operator with to create the crd value
 
 ```
-kubectl apply -n kube-system -f deploy/role.yaml
-kubectl apply -n kube-system -f deploy/service_account.yaml
-kubectl apply -n kube-system -f deploy/role_binding.yaml
+helm install -n kube-system team-operator helm
 ```
 
-* Creating a deployment for the Operator:
-
-```
-kubectl apply -n kube-system -f deploy/operator.yaml 
-```
-
-* Creating a Custom Resource Defenitions:
-```
-kubectl apply -f deploy/crds/ops_v1beta1_team_crd.yaml
-```
 
 * Describing resources in custom resource definitions for Teams in the yaml manifest and applying it.
 
-Example file for team: `deploy/examples_CR/ops_v1beta1_team_cr.yaml`
+Example file for team: `examples/ops_v1_team_cr.yaml`
 ```
-kubectl apply -f deploy/examples_CR/ops_v1beta1_team_cr.yaml
+kubectl apply -f examples/ops_v1_team_cr.yaml
 ```
 
 After applying the yaml manifest with the described resources for Teams the operator creates 3 Namespaces:
