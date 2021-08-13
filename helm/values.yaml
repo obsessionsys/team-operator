@@ -14,7 +14,7 @@ serviceAccount:
   namespace: kube-system
 
 crd:
-  create: false
+  create: true
 
 imageCredentials: {}
   # registry:
@@ -26,7 +26,7 @@ operator:
   replicaCount: 1
   image:
     repository: obsessionsys/team-operator
-    tag: latest
+    tag: v1.21.2
     pullPolicy: Always
     #imagePullSecrets: private-registry
   resources: 

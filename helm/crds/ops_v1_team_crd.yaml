@@ -5,6 +5,8 @@ metadata:
   name: teams.ops.teams.io
   labels:
     app.kubernetes.io/name: team-operator
+  annotations:
+    "helm.sh/hook": crd-install
 spec:
   group: ops.teams.io
   names:
@@ -74,7 +76,6 @@ spec:
                       - name
                       - maxPods
                       - resources
-                      - podResources
                     properties:
                       name:
                         type: string
@@ -113,74 +114,7 @@ spec:
                                 pattern: '^(\d+(e\d+)?|\d+(\.\d+)?(e\d+)?[EPTGMK]i?)$'
                       podResources:
                         type: object
-                        required:
-                          - limits
-                          - requests
-                          - maxLimitRequestRatio
-                        properties:
-                          limits:
-                            type: object
-                            required:
-                              - max
-                              - default
-                            properties:
-                              max:
-                                type: object
-                                required:
-                                  - cpu
-                                  - memory
-                                properties:
-                                  cpu:
-                                    type: string
-                                    pattern: '^(\d+m|\d+(\.\d{1,3})?)$'
-                                  memory:
-                                    type: string
-                                    pattern: '^(\d+(e\d+)?|\d+(\.\d+)?(e\d+)?[EPTGMK]i?)$'
-                              default:
-                                type: object
-                                required:
-                                  - cpu
-                                  - memory
-                                properties:
-                                  cpu:
-                                    type: string
-                                    pattern: '^(\d+m|\d+(\.\d{1,3})?)$'
-                                  memory:
-                                    type: string
-                                    pattern: '^(\d+(e\d+)?|\d+(\.\d+)?(e\d+)?[EPTGMK]i?)$'
-                          requests:
-                            type: object
-                            required:
-                              - min
-                              - default
-                            properties:
-                              min:
-                                type: object
-                                required:
-                                  - cpu
-                                  - memory
-                                properties:
-                                  cpu:
-                                    type: string
-                                    pattern: '^(\d+m|\d+(\.\d{1,3})?)$'
-                                  memory:
-                                    type: string
-                                    pattern: '^(\d+(e\d+)?|\d+(\.\d+)?(e\d+)?[EPTGMK]i?)$'
-                              default:
-                                type: object
-                                required:
-                                  - cpu
-                                  - memory
-                                properties:
-                                  cpu:
-                                    type: string
-                                    pattern: '^(\d+m|\d+(\.\d{1,3})?)$'
-                                  memory:
-                                    type: string
-                                    pattern: '^(\d+(e\d+)?|\d+(\.\d+)?(e\d+)?[EPTGMK]i?)$'
-                          maxLimitRequestRatio:
-                            type: object
-                            x-kubernetes-preserve-unknown-fields: true
+                        x-kubernetes-preserve-unknown-fields: true
             status:
               type: object
               x-kubernetes-preserve-unknown-fields: true

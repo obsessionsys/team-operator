@@ -1,8 +1,0 @@
-{{- if .Values.examplecrEnable.enabled -}}
-apiVersion: ops.teams.io/v1beta1
-kind: Team
-metadata:
-  name: {{ .Values.examplecrEnable.name }}
-spec:
-  {{- toYaml .Values.customResource | nindent 2 }}
-{{- end }}

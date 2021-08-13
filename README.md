@@ -10,14 +10,13 @@ Kubernetes Operator allows you to create Team objects with a description of the 
  * RBAC in Namespace
 
 ## How the operator works:
-- Creates a Namespace called `team-**TEAM-NAME**`
+- Creates a Namespace called `**TEAM-NAME**`
 - Creates LimitRange inside Namespace
 - Creates ResourceQouta inside Namespace 
 - Creates a serviceaccount for CI
 - Creates rolebinding for CI and users
-- Optionally launches the desired service pod - Tiller
 
-The Operator was tested on K8s version 1.18.3
+The Operator was tested on K8s version 1.21.2
 
 ## Quick start
 

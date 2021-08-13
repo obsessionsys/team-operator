@@ -1,5 +1,5 @@
 ---
-- version: v1beta1
+- version: v1
   group: ops.teams.io
   kind: Team
   role: /opt/ansible/roles/team
