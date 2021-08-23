@@ -1,5 +1,5 @@
 ---
-apiVersion: ops.southbridge.io/v1beta1
+apiVersion: ops.teams.io/v1
 kind: Team
 metadata:
   name: team
@@ -7,18 +7,18 @@ spec:
   inCharge: POK8s
   environments:
     - name: developers
-      maxPods: 30
+      maxPods: "30"
       resources:
         limits:
-          cpu: 2
+          cpu: "2"
           memory: 5Gi
         requests:
-          cpu: 2
+          cpu: "2"
           memory: 5Gi
       podResources:
         limits:
           max:
-            cpu: 1
+            cpu: "1"
             memory: 1Gi
           default:
             cpu: 100m
@@ -31,29 +31,24 @@ spec:
             cpu: 100m
             memory: 100Mi
         maxLimitRequestRatio:
-          cpu: 2
-          memory: 2
-      tiller:
-        enabled: false
+          cpu: "2"
 
     - name: qa
+      maxPods: "30"
       resources:
         limits:
-          cpu: 5
+          cpu: "5"
           memory: 5Gi
         requests:
-          cpu: 5
+          cpu: "5"
           memory: 5Gi
-      tiller:
-        enabled: false
 
     - name: stage
+      maxPods: "30"
       resources:
         limits:
-          cpu: 2
+          cpu: "2"
           memory: 2Gi
         requests:
-          cpu: 2
+          cpu: "2"
           memory: 2Gi
-      tiller:
-        enabled: false

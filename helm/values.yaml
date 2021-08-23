@@ -1,0 +1,47 @@
+
+fullnameOverride: "team-operator"
+nameOverride: "team-operator"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: team-operator
+  # Can't touch the namespace variable, because the operator works at the Cluster Admin
+  namespace: kube-system
+
+crd:
+  create: true
+
+imageCredentials: {}
+  # registry:
+  # username:
+  # password:
+  # email:
+
+operator:
+  replicaCount: 1
+  image:
+    repository: obsessionsys/team-operator
+    tag: v1.21.2
+    pullPolicy: Always
+    #imagePullSecrets: private-registry
+  resources: 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    limits:
+      cpu: 300m
+      memory: 512Mi
+    requests:
+      cpu: 300m
+      memory: 512Mi
+  affinity: {}
+
+  tolerations: []
+
+  annotations: {}

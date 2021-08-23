@@ -1,0 +1,48 @@
+1. Create the yaml file of Custom Resource:
+
+
+$ nano ops_v1_team.crd.yaml
+
+
+Put to the file manifest
+
+---
+apiVersion: ops.teams.io/v1
+kind: Team
+metadata:
+  name: teams
+spec:
+  inCharge: TeamFedorov
+  environments:
+    - name: test
+      maxPods: 30
+      resources:
+        limits:
+          cpu: "5"
+          memory: "5Gi"
+        requests:
+          cpu: "5"
+          memory: "5Gi"
+      podResources:
+        limits:
+          max:
+            cpu: "1"
+            memory: "1Gi"
+          default:
+            cpu: "100m"
+            memory: "100Mi"
+        requests:
+          min:
+            cpu: "50m"
+            memory: "64Mi"
+          default:
+            cpu: "100m"
+            memory: "100Mi"
+        maxLimitRequestRatio:
+          cpu: "2"
+
+
+Apply the yaml file:
+
+$ kubectl apply -f ops_v1_team.crd.yaml
+

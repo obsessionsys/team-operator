@@ -1,6 +1,5 @@
 # K8s Team operator
 
-This is fork from repo https://github.com/pauljamm/team-operator
 
 Kubernetes Operator allows you to create Team objects with a description of the environment for this Team (for example, developer, QA, Stage environments) and allocates a certain amount of resources for the Team in this Namespace.
 
@@ -10,47 +9,38 @@ Kubernetes Operator allows you to create Team objects with a description of the 
  * RBAC in Namespace
 
 ## How the operator works:
-- Creates a Namespace called `team-**TEAM-NAME**`
+- Creates a Namespace called `**TEAM-NAME**`
 - Creates LimitRange inside Namespace
 - Creates ResourceQouta inside Namespace 
-- Creates a serviceaccount for CI
-- Creates rolebinding for CI and users
-- Optionally launches the desired service pod - Tiller
+- Creates a serviceaccount for CI/CD
+- Creates rolebinding for CI/CD and users
 
-The Operator was tested on K8s version 1.18.3
+The Operator was tested on K8s version 1.21.2
 
 ## Quick start
 
-* Creating a serviceaccount for the Operator:
+* Deploing operator with to create the crd value
 
 ```
-kubectl apply -n kube-system -f deploy/role.yaml
-kubectl apply -n kube-system -f deploy/service_account.yaml
-kubectl apply -n kube-system -f deploy/role_binding.yaml
+helm install -n kube-system team-operator helm
 ```
 
-* Creating a deployment for the Operator:
-
-```
-kubectl apply -n kube-system -f deploy/operator.yaml 
-```
-
-* Creating a Custom Resource Defenitions:
-```
-kubectl apply -f deploy/crds/ops_v1beta1_team_crd.yaml
-```
 
 * Describing resources in custom resource definitions for Teams in the yaml manifest and applying it.
 
-Example file for team: `deploy/examples_CR/ops_v1beta1_team_cr.yaml`
+
+See the examples: `examples` and testing
+
+Example file for team: `examples/ops_v1_several_team_cr.yaml`
+
 ```
-kubectl apply -f deploy/examples_CR/ops_v1beta1_team_cr.yaml
+kubectl apply -f examples/ops_v1_several_team_cr.yaml
 ```
 
 After applying the yaml manifest with the described resources for Teams the operator creates 3 Namespaces:
- - team-developers
- - team-qa
- - team-stage
+ - developers
+ - qa
+ - stage
 
 ```
 $ kubectl get namespace
@@ -63,18 +53,18 @@ kube-public       Active   235d
 kube-system       Active   235d
 logging           Active   211d
 monitoring        Active   212d
-team-developers   Active   2d15m
-team-qa           Active   2d15m
-team-stage        Active   2d15m
+developers   Active   2d15m
+qa           Active   2d15m
+stage        Active   2d15m
 ```
 
 ```
-$ kubectl describe namespace team-developers
+$ kubectl describe namespace developers
 
-Name:         team-developers
+Name:         developers
 Labels:       inCharge=POK8s
 Annotations:  operator-sdk/primary-resource: /team
-              operator-sdk/primary-resource-type: Team.ops.southbridge.io
+              operator-sdk/primary-resource-type: Team.ops.teams.io
 Status:       Active
 
 Resource Quotas
@@ -98,11 +88,48 @@ Resource Limits
 ```
 
 
-If you need to increase quotas for Teams, you should change parameters in the `deploy/examples_CR/ops_v1beta1_team_cr.yaml` file and update the custom resource definitions.
+If you need to increase quotas for Teams, you should change parameters in the `examples/ops_v1_team_cr.yaml` file and update the custom resource definitions.
+
+# Note
+
+This note is in order to quickly get a user token for CI/CD
+
+* Get the name of secretname ServiceAccount
+
+Pattern:
+
+```
+export TOKENNAME=$(kubectl -n NAMESPACE get serviceaccount/deploy -o jsonpath='{.secrets[0].name}')
+```
+
+Example:
+
+```
+export TOKENNAME=$(kubectl -n developers get serviceaccount/deploy -o jsonpath='{.secrets[0].name}')
+```
+
+* Get the token of the serviceaccount name
+
+Pattern:
+
+```
+export TOKEN=$(kubectl -n NAMESPACE get secret $TOKENNAME -o jsonpath='{.data.token}' | base64 --decode)
+```
+
+Example:
+
+```
+export TOKEN=$(kubectl -n developers get secret $TOKENNAME -o jsonpath='{.data.token}' | base64 --decode)
+```
+
+* Print the token in the terminal
+
+```
+echo $TOKEN
+```
 
 ## Team
-* Pavel Selivanov (pauljamm) : Owner
-* Vitaly Fedorov (obsessionsys) : Сontributor
+* Vitaly Fedorov (obsessionsys) : Owner
 
 ## License
 Team-Operator is distributed under MIT. 

@@ -1,13 +1,17 @@
 {{- $fullName := include "team.fullname" . -}}
 {{- $name := "operator" -}}
 {{- $data := dict "name" $name "Chart" .Chart "Release" .Release "Values" .Values -}}
-apiVersion: apps/v1
+apiVersion: {{ template "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 metadata:
   name: {{ $fullName }}-{{ $name }}
   namespace: {{ .Values.serviceAccount.namespace }}
   labels:
     {{- include "team.labels" $data | nindent 4 }}
+  {{- if .Values.operator.annotations }}
+  annotations:
+{{ toYaml .Values.operator.annotations | indent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.operator.replicaCount }}
   selector:
@@ -17,13 +21,21 @@ spec:
     metadata:
       labels:
         {{- include "team.selectorLabels" $data | nindent 8 }}
+      {{- if .Values.operator.annotations }}
+      annotations:
+{{ toYaml .Values.operator.annotations | indent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ include "team.serviceAccountName" . }}
+      imagePullSecrets: 
+        - name: {{ $fullName }}-{{ $name }}
       containers:
         - name: {{ .Chart.Name }}-{{ $name }}
           image: "{{ .Values.operator.image.repository }}:{{ .Values.operator.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.operator.image.pullPolicy }}
           env:
+            - name: ANSIBLE_DEBUG_LOGS
+              value: "True"
             - name: WATCH_NAMESPACE
               value: ""
             - name: POD_NAME
